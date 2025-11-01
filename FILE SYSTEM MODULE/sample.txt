@@ -1,1 +1,3 @@
 THis is Just a sample file created with Fs module
+Added text from append
+Hello from sync append!
