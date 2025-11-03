@@ -37,7 +37,7 @@ app.get('/api/users', (req, res) => {
     const html = `
     <ul>
     ${users.map((user) => {
-        `<li>${user.first_name}  </li>`
+        return `<li>${user.first_name}  </li>`
     }).join("")}
     </ul>`;
 
@@ -52,10 +52,12 @@ app.get('/users', (req, res) => {
 
 // GET- PUT - DELETE -- all 3 uses the same route
 app.route('/api/users/:id').get(
-    (req, res) => {
+    (req, res) => { 
         let id = Number(req.params.id)
         let user = users.find((user) => user.id === id)
-
+        // if (!user) {
+        //     return res.status(404).json({ error: "User not found" });
+        // }
         return res.json(user)
     }
 )
