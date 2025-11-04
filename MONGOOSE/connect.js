@@ -21,7 +21,7 @@ const userschema = new mongoose.Schema({
         required: true,
         unique: true,
     }
-});
+}, { timestamps: true });
 
 const User = mongoose.model('user', userschema);
 
@@ -37,11 +37,16 @@ app.get('/users', (req, res) => {
 app.post('/api/users', (req, res) => {
     const body = req.body;
 
-    if (!body || !body.firstName || !body.email) {
-        return res.status(400).json({msg: 'ALL feild req..'})
+    if (!body.firstName || !body.email) {
+        return res.status(400).json({ msg: 'ALL feild req..' })
     }
 
-    
+    const result = User.create({
+        firstName: body.firstName,
+        email: body.email,
+    });
+
+    return res.status(201).json({ msg: "success" })
 
 })
 
