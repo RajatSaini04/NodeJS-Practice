@@ -10,8 +10,10 @@
   },
   "keywords": [],
   "dependencies": {
+    "ejs": "^3.1.10",
     "express": "^5.1.0",
     "mongoose": "^8.19.2",
+    "nanoid": "^5.1.6",
     "nodemon": "^3.1.10"
   }
 }
