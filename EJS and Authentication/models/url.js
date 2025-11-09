@@ -6,12 +6,12 @@ const urlSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
-    redirectUrl:{
+    redirectUrl: {
         type: String,
         required: true,
     },
-    visitHistory:[{
-        timestamp: {type: Number}
+    visitHistory: [{
+        timestamp: { type: Number }
     }]
 }, { timestamps: true });
 

@@ -2,15 +2,18 @@ const express = require("express");
 const app = express();
 
 const path = require('path')
-const staticRoute = require('./routes/staticRouter');
+const cookieParser  = require('cookie-parser')
+const { restrictToLoggedinUserOnly } = require('./middlewares/auth');
 
 const { connectMongoDB } = require('./connection');
-// const { logReqRes } = require('./middlewares');
-const urlRouter = require('./routes/url');
+
 const URL = require('./models/url');
+const urlRouter = require('./routes/url');
+const staticRoute = require('./routes/staticRouter');
+const userRoute = require('./routes/user');
 
 // Connection
-connectMongoDB('mongodb://127.0.0.1:27017/short-url')
+connectMongoDB('mongodb://127.0.0.1:27017/shortUrl')
     .then(() => {
         console.log("MongoDB CONNECTED");
     })
@@ -18,9 +21,11 @@ connectMongoDB('mongodb://127.0.0.1:27017/short-url')
         console.log("MOngog Error: ", err);
     })
 
+
 // Setting EJS Engine here
 app.set('view engine', 'ejs')
 app.set('views', path.resolve('./views'))
+
 
 
 // Middleware
@@ -28,18 +33,15 @@ app.set('views', path.resolve('./views'))
 app.use(express.json())
 // -support form data
 app.use(express.urlencoded({ extended: true }))
-
-// Templating Engine EJS Rotue for SSR
-// app.use('/test', async (req, res) => {
-//     const allUrls = await URL.find({});
-//     return res.render('home', {
-//         urls: allUrls,
-//     })
-// })
+// parse the cookies
+app.use(cookieParser())
 
 // Routes 
-app.use('/url', urlRouter)
+// inline middleware
+app.use('/url', restrictToLoggedinUserOnly , urlRouter)
 app.use('/', staticRoute)
+
+app.use('/user', userRoute)
 
 app.get('/url/:shortId', async (req, res) => {
     const shortId = req.params.shortId;
