@@ -12,7 +12,7 @@ const handleUserSignUp = async (req, res) => {
         password,
     })
 
-    return res.render('/')
+    return res.redirect('/login')
 };
 
 const handleUserLogIn = async (req, res) => {

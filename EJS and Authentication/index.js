@@ -2,8 +2,8 @@ const express = require("express");
 const app = express();
 
 const path = require('path')
-const cookieParser  = require('cookie-parser')
-const { restrictToLoggedinUserOnly } = require('./middlewares/auth');
+const cookieParser = require('cookie-parser')
+const { restrictToLoggedinUserOnly, checkAuth } = require('./middlewares/auth');
 
 const { connectMongoDB } = require('./connection');
 
@@ -38,8 +38,8 @@ app.use(cookieParser())
 
 // Routes 
 // inline middleware
-app.use('/url', restrictToLoggedinUserOnly , urlRouter)
-app.use('/', staticRoute)
+app.use('/url', restrictToLoggedinUserOnly, urlRouter)
+app.use('/', checkAuth, staticRoute)
 
 app.use('/user', userRoute)
 
