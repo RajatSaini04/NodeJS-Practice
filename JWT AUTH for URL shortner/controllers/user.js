@@ -23,10 +23,14 @@ const handleUserLogIn = async (req, res) => {
             error: "Invalid Username or Password"
         })
     }
+    // JWT TOKEN
+    // const token = setUser(user);
+    // res.cookie('uid', token)
+    // return res.redirect('/')
+
+    // HEADER - RESPONSE
     const token = setUser(user);
-    setUser(user)
-    res.cookie('uid', token)
-    return res.redirect('/')
+    return res.json({ token })
 };
 
 module.exports = {
